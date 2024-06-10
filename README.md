@@ -1,15 +1,5 @@
-# 🚀 Welcome to your new awesome project!
+# Redux todo list 
 
-This project has been created using **webpack-cli**, you can now run
+Read API from https://dummyjson.com/docs/todos#todos-all
 
-```
-npm run build
-```
 
-or
-
-```
-yarn build
-```
-
-to bundle your application
