@@ -1,0 +1,31 @@
+.applist {
+  display: grid;
+  max-width: 500px;
+  margin: 2rem auto;
+  gap: 1rem;
+
+  .control {
+    display: flex;
+    gap: 1rem;
+
+    input {
+      flex-grow: 1;
+      font-size: 1rem;
+      padding: 0.5rem;
+    }
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+}

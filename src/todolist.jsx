@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from "react-redux";
-import { load, loadMore } from "./redux/todolist";
+import { addTodo, load, loadMore } from "./redux/todolist";
+
+import "./todolist.scss";
 
 function fetchTodo({ skip = 0, limit = 30 }) {
   return fetch(`https://dummyjson.com/todos?skip=${skip}&limit=${limit}`).then(
@@ -8,8 +10,8 @@ function fetchTodo({ skip = 0, limit = 30 }) {
   );
 }
 
-function TodoList({ items, loadMore, load }) {
-  const skip = items.length;
+function TodoList({ items, loadMore, load, addTodo }) {
+  const [skip, setSkip] = useState(0);
   const limit = 10;
   const [total, setTotal] = useState(0);
 
@@ -17,6 +19,7 @@ function TodoList({ items, loadMore, load }) {
     fetchTodo({ skip, limit }).then((res) => {
       const todos = res.todos;
       setTotal(res.total);
+      setSkip(res.limit);
       load(todos);
     });
   }, []);
@@ -25,11 +28,33 @@ function TodoList({ items, loadMore, load }) {
     fetchTodo({ skip, limit }).then((res) => {
       const todos = res.todos;
       loadMore(todos);
+      setSkip(skip + limit);
     });
   };
 
+  const [inputValue, setInputValue] = useState("");
+
   return (
-    <div>
+    <div className="applist">
+      <div className="control">
+        <input
+          type="text"
+          className="text"
+          value={inputValue}
+          placeholder="New todo"
+          onChange={(e) => setInputValue(e.target.value)}
+        />
+        <button
+          onClick={() => {
+            if (inputValue) {
+              setInputValue("");
+              addTodo(inputValue);
+            }
+          }}
+        >
+          add
+        </button>
+      </div>
       <ul>
         {items.map((item) => (
           <li key={item.id}>
@@ -52,5 +77,6 @@ export default connect(
   {
     loadMore,
     load,
+    addTodo,
   }
 )(TodoList);
